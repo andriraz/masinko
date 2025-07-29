@@ -19,31 +19,35 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
     <div class="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
-        <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 sm:p-8">
+        <div class="bg-stone-900 rounded-2xl shadow-2xl p-6 sm:p-8">
             <header class="text-center mb-8">
-                <h1 class="text-3xl sm:text-4xl font-bold text-cyan-400">Mašinko Setlist Generator</h1>
-                <p class="text-gray-400 mt-2">Lažni Andrija.</p>
+                <h1 class="text-3xl sm:text-4xl font-bold text-orange-400">Generator Setliste</h1>
+                <p class="text-stone-400 mt-2">Kreirajte savršenu setlistu za vaš nastup.</p>
             </header>
 
             <!-- Input Controls -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div>
-                    <label for="duration" class="block text-sm font-medium text-gray-300 mb-2">Trajanje (minute)</label>
-                    <input type="number" id="duration" class="w-full bg-gray-700 border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition" placeholder="npr. 90" value="90">
+                    <label for="duration" class="block text-sm font-medium text-stone-300 mb-2">Trajanje (minute)</label>
+                    <input type="number" id="duration" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="npr. 90" value="90">
+                </div>
+                 <div>
+                    <label for="break-duration" class="block text-sm font-medium text-stone-300 mb-2">Pauza (sekunde)</label>
+                    <input type="number" id="break-duration" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="npr. 30" value="30">
                 </div>
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-300 mb-2">Tip Liste</label>
-                    <select id="type" class="w-full bg-gray-700 border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition">
-                        <option value="Hits">Hitovi</option>
-                        <option value="Varied">Manje hitovi</option>
-                        <option value="Random">Deremo</option>
+                    <label for="type" class="block text-sm font-medium text-stone-300 mb-2">Tip liste</label>
+                    <select id="type" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition">
+                        <option value="Hits">Ziceri</option>
+                        <option value="Varied">Taman</option>
+                        <option value="Random">Peglanje</option>
                     </select>
                 </div>
                 <div class="self-end">
-                    <button id="generate-btn" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-cyan-500/50">
-                        Generiraj Listu
+                    <button id="generate-btn" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-orange-500/50">
+                        Generiraj listu
                     </button>
                 </div>
             </div>
@@ -53,22 +57,22 @@
             <!-- Results Section -->
             <div id="results-container" class="hidden animate-fade-in">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
-                    <h2 class="text-2xl font-semibold text-gray-100">Generirana Setlista</h2>
-                    <div class="text-left sm:text-right bg-gray-900/40 p-3 rounded-lg">
-                         <p class="text-gray-400 text-sm">Ukupno trajanje:</p>
-                         <p id="total-duration" class="text-xl font-bold text-cyan-400"></p>
+                    <h2 class="text-2xl font-semibold text-gray-100">Generirana setlista</h2>
+                    <div class="text-left sm:text-right bg-black/40 p-3 rounded-lg">
+                         <p class="text-stone-400 text-sm">Ukupno trajanje:</p>
+                         <p id="total-duration" class="text-xl font-bold text-orange-400"></p>
                     </div>
                 </div>
 
-                <div class="bg-gray-900/50 rounded-lg overflow-hidden">
-                    <ul id="setlist" class="divide-y divide-gray-700">
+                <div class="bg-black/50 rounded-lg overflow-hidden">
+                    <ul id="setlist" class="divide-y divide-stone-700">
                         <!-- Song items will be injected here by JavaScript -->
                     </ul>
                 </div>
 
                 <div class="text-center mt-6">
-                    <button id="copy-btn" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                        Kopiraj Nazive Pjesama
+                    <button id="copy-btn" class="bg-stone-700 hover:bg-stone-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                        Kopiraj setlistu
                     </button>
                     <p id="copy-feedback" class="text-green-400 text-sm mt-2 h-4"></p>
                 </div>
@@ -107,21 +111,21 @@ Kada vjetar kaze stani,Svugdje je doma, ali lijepo je najljepse,238,5
 Gotova stvar,Svugdje je doma, ali lijepo je najljepse,162,3
 Nesto novo, nesto divlje,Svugdje je doma, ali lijepo je najljepse,216,2
 Jedne noci u ponoc,Svugdje je doma, ali lijepo je najljepse,152,3
-Odzvanjala,Svugdje je doma, ali lijepo je najljepse,166,4
+Odzvanjala je pjesma,Svugdje je doma, ali lijepo je najljepse,166,4
 Bumerang,Svugdje je doma, ali lijepo je najljepse,156,3
 Stanje nacije,Svugdje je doma, ali lijepo je najljepse,174,1
 Dolje na dnu,Svugdje je doma, ali lijepo je najljepse,170,3
 Djevojka za pobjede,Svugdje je doma, ali lijepo je najljepse,186,3
 Pobuna,Svugdje je doma, ali lijepo je najljepse,131,2
 Pogledaj me u oci,Svugdje je doma, ali lijepo je najljepse,194,3
-Sretan Bozic (bit ce bolje),Bozicna,139,1
+Sretan bozic (bit ce bolje),Bozicna,139,1
 Brkovi,Obrade,140,1
-Srkijev San 21,Godina majmuna / Majmun godine,231,5
-Zajedno U Natrag,Godina majmuna / Majmun godine,198,3
+Srkijev san 21,Godina majmuna / Majmun godine,231,5
+Zajedno unatrag,Godina majmuna / Majmun godine,198,3
 041,Godina majmuna / Majmun godine,231,4
-Nijedna Moja Bivsa,Godina majmuna / Majmun godine,147,3
+Nijedna moja bivsa,Godina majmuna / Majmun godine,147,3
 Monumentalna,Godina majmuna / Majmun godine,384,3
-Rijetka Sprava,Godina majmuna / Majmun godine,152,3
+Rijetka sprava,Godina majmuna / Majmun godine,152,3
 Punim plucima,Danas cu, sutra cu,188,5
 Zle opacine,Danas cu, sutra cu,147,2
 Ona stoji na vratima i negoduje,Danas cu, sutra cu,215,4
@@ -144,10 +148,10 @@ Uzalud,Pozovite rapsode,202,0
 Obilje,Pozovite rapsode,139,3
 Skoro pa nesto,Pozovite rapsode,211,1
 Dzingis Kan,Pozovite rapsode,158,0
-zivot tombola,Pozovite rapsode,136,0
+Zivot tombola,Pozovite rapsode,136,0
 Pozovite rapsode,Pozovite rapsode,226,4
 Odlazim iz grada,Pozovite rapsode,202,0
-Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195,0`;
+Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195,0`;
 
             const distributions = {
                 Hits: { 4: 0.7, 3: 0.3, 2: 0.0, 1: 0.0 },
@@ -155,9 +159,8 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                 Random: { 4: 0.3, 3: 0.3, 2: 0.3, 1: 0.1 }
             };
 
-            const breakDuration = 30; // 30 seconds between songs
-
             const durationInput = document.getElementById('duration');
+            const breakDurationInput = document.getElementById('break-duration');
             const typeSelect = document.getElementById('type');
             const generateBtn = document.getElementById('generate-btn');
             const copyBtn = document.getElementById('copy-btn');
@@ -183,7 +186,7 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                     if (isNaN(duration) || isNaN(playing)) return null;
 
                     return { name, album, duration, playing };
-                }).filter(Boolean); // Filter out null values
+                }).filter(Boolean);
             };
 
             const shuffle = (array) => {
@@ -201,6 +204,7 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
             };
             
             const calculateTotalTime = (songList) => {
+                const breakDuration = parseInt(breakDurationInput.value, 10) || 0;
                 if (!songList || songList.length === 0) return 0;
                 const songDurations = songList.reduce((acc, song) => acc + song.duration, 0);
                 const breaksTime = (songList.length > 1) ? (songList.length - 1) * breakDuration : 0;
@@ -224,6 +228,31 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
 
 
             // --- Main Logic ---
+            const applyAlbumRule = (songList) => {
+                const list = [...songList];
+                for (let i = 2; i < list.length; i++) {
+                    if (list[i].album && list[i].album === list[i-1].album && list[i-1].album === list[i-2].album) {
+                        let swapped = false;
+                        for (let j = i + 1; j < list.length; j++) {
+                            if (list[j].album !== list[i].album && list[j].album !== list[i-1].album) {
+                                 [list[i], list[j]] = [list[j], list[i]];
+                                 swapped = true;
+                                 break;
+                            }
+                        }
+                        if (!swapped) {
+                             for (let j = i + 1; j < list.length; j++) {
+                                if (list[j].album !== list[i].album) {
+                                    [list[i], list[j]] = [list[j], list[i]];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                return list;
+            };
+
             const findLastThree = (list) => {
                 const candidates = list.filter(s => s.playing >= 3).sort((a, b) => b.playing - a.playing);
                 if (candidates.length < 3) return null;
@@ -256,7 +285,6 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
 
                 let attempts = 0;
                 while (attempts < 20) {
-                    // Re-initialize for each attempt
                     let finalSetlist = songs.filter(s => s.playing === 5);
                     const songNamesInSetlist = new Set(finalSetlist.map(s => s.name));
                      const pools = {
@@ -268,7 +296,6 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                     const distribution = distributions[type];
                     let currentDuration = calculateTotalTime(finalSetlist);
 
-                    // Fill the list
                     let availablePools = Object.keys(pools).filter(p => pools[p].length > 0 && distribution[p] > 0);
                     while(availablePools.length > 0) {
                         const priority = getWeightedRandomPriority(distribution);
@@ -277,10 +304,12 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                             continue;
                         }
                         const songToAdd = pools[priority][pools[priority].length - 1];
-                        const durationWithNewSong = currentDuration + songToAdd.duration + (finalSetlist.length > 0 ? breakDuration : 0);
+                        const tempSetlist = [...finalSetlist, songToAdd];
+                        const durationWithNewSong = calculateTotalTime(tempSetlist);
+
                         if (durationWithNewSong <= maxDuration) {
                             finalSetlist.push(pools[priority].pop());
-                            currentDuration = calculateTotalTime(finalSetlist);
+                            currentDuration = durationWithNewSong;
                         } else {
                             pools[priority].pop();
                         }
@@ -289,16 +318,16 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                         }
                     }
 
-                    // Validate this attempt
                     currentDuration = calculateTotalTime(finalSetlist);
                     const lastThree = findLastThree(finalSetlist);
 
                     if (currentDuration >= minDuration && lastThree) {
-                        // SUCCESS: We have a valid list
                         errorMessageEl.classList.add('hidden');
                         
                         let remainingSongs = finalSetlist.filter(song => !lastThree.includes(song));
                         shuffle(remainingSongs);
+
+                        remainingSongs = applyAlbumRule(remainingSongs);
 
                         const midPoint = Math.floor(remainingSongs.length / 2);
                         for (let i = 0; i < midPoint; i++) {
@@ -316,15 +345,20 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                             }
                         }
                         
+                        const gleceriIndex = remainingSongs.findIndex(s => s.name === "Gleceri");
+                        if (gleceriIndex > -1) {
+                            const gleceriSong = remainingSongs.splice(gleceriIndex, 1)[0];
+                            remainingSongs.unshift(gleceriSong);
+                        }
+
                         shuffle(lastThree);
                         const orderedSetlist = [...remainingSongs, ...lastThree];
                         renderSetlist(orderedSetlist);
-                        return; // Exit successfully
+                        return;
                     }
                     attempts++;
                 }
 
-                // If loop finishes, all attempts failed
                 errorMessageEl.textContent = 'Nije moguće generirati listu koja zadovoljava sva pravila. Pokušajte s dužim trajanjem ili drugačijim tipom liste.';
                 errorMessageEl.classList.remove('hidden');
                 resultsContainer.classList.add('hidden');
@@ -334,22 +368,22 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                 setlistEl.innerHTML = '';
                 
                 if (list.length === 0) {
-                    setlistEl.innerHTML = `<li class="p-4 text-center text-gray-500">Nije moguće generirati listu s zadanim kriterijima.</li>`;
+                    setlistEl.innerHTML = `<li class="p-4 text-center text-stone-500">Nije moguće generirati listu s zadanim kriterijima.</li>`;
                 } else {
                     list.forEach((song, index) => {
                         const li = document.createElement('li');
-                        li.className = 'p-4 flex justify-between items-center transition hover:bg-gray-800/50';
+                        li.className = 'px-2 sm:px-4 py-4 flex justify-between items-center transition hover:bg-stone-800/50';
                         li.innerHTML = `
-                            <div class="flex items-center gap-4">
-                                <span class="text-gray-500 font-bold w-8 text-center text-lg">${index + 1}.</span>
+                            <div class="flex items-center gap-2 sm:gap-4">
+                                <span class="text-stone-500 font-bold w-8 text-center text-lg">${index + 1}.</span>
                                 <div>
                                     <p class="font-semibold text-white">${song.name}</p>
-                                    <p class="text-sm text-gray-400">${song.album}</p>
+                                    <p class="text-sm text-stone-400">${song.album}</p>
                                 </div>
                             </div>
                             <div class="text-right flex-shrink-0">
                                <p class="font-medium text-gray-300">${formatTime(song.duration)}</p>
-                               <p class="text-xs text-cyan-400/70">Prioritet: ${song.playing}</p>
+                               <p class="text-xs text-orange-400/70">Prioritet: ${song.playing}</p>
                             </div>
                         `;
                         setlistEl.appendChild(li);
@@ -408,3 +442,4 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
     </script>
 </body>
 </html>
+
