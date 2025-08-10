@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Setliste</title>
+    <title>Lažni Andrija</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -23,8 +23,8 @@
     <div class="w-full max-w-5xl mx-auto p-4 sm:p-6 md:p-8">
         <div class="bg-stone-900 rounded-2xl shadow-2xl p-6 sm:p-8">
             <header class="text-center mb-8">
-                <h1 class="text-3xl sm:text-4xl font-bold text-orange-400">Generator Setliste</h1>
-                <p class="text-stone-400 mt-2">Kreirajte savršenu setlistu za vaš nastup.</p>
+                <h1 class="text-3xl sm:text-4xl font-bold text-orange-400">Lažni Andrija</h1>
+                <p class="text-stone-400 mt-2">Brzi generator setliste</p>
             </header>
 
             <!-- Input Controls -->
@@ -44,9 +44,9 @@
                 <div>
                     <label for="type" class="block text-sm font-medium text-stone-300 mb-2">Tip Liste</label>
                     <select id="type" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition">
-                        <option value="Hits">Hitovi</option>
-                        <option value="Varied">Raznovrsno</option>
-                        <option value="Random">Nasumično</option>
+                        <option value="Hits">Samo hitovi</option>
+                        <option value="Varied">Svega pomalo</option>
+                        <option value="Random">Svega poviše</option>
                     </select>
                 </div>
                  <div class="flex items-end justify-center pb-3">
@@ -484,7 +484,7 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                         if(block.length === 0) return;
                         const separator = document.createElement('li');
                         separator.className = 'py-2 text-center text-stone-600 font-semibold tracking-wider bg-stone-800/60';
-                        separator.textContent = `---`;
+                        separator.textContent = `--- BLOK ${index + 1} ---`;
                         setlistEl.appendChild(separator);
                         block.forEach(song => {
                            songCounter++;
@@ -501,7 +501,7 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                 if (encoreList.length > 0) {
                     const separator = document.createElement('li');
                     separator.className = 'py-3 text-center text-orange-400 font-semibold tracking-widest bg-black/30';
-                    separator.textContent = '===';
+                    separator.textContent = '--- BIS ---';
                     setlistEl.appendChild(separator);
                     encoreList.forEach(song => {
                         songCounter++;
@@ -534,23 +534,36 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
 
             // --- Event Listeners ---
             generateBtn.addEventListener('click', generateSetlist);
+            
             copyBtn.addEventListener('click', () => {
                 let textToCopy = Array.from(setlistEl.children).map(li => {
-                    if (li.textContent.includes('---')) return `\n${li.textContent}\n`;
-                    return li.querySelector('.font-semibold')?.textContent;
-                }).join('\n').replace(/\n\n/g, '\n').trim();
+                    const content = li.textContent;
+                    if (content.includes('--- BLOK')) {
+                        return '---';
+                    }
+                    if (content.includes('--- BIS ---')) {
+                        return '===';
+                    }
+                    return li.querySelector('p.font-semibold')?.textContent;
+                }).filter(Boolean).join('\n');
 
                 if (textToCopy) {
                     const ta = document.createElement('textarea');
-                    ta.value = textToCopy; ta.style.position = 'fixed'; ta.style.top = '-9999px';
+                    ta.value = textToCopy; 
+                    ta.style.position = 'fixed'; 
+                    ta.style.top = '-9999px';
                     document.body.appendChild(ta);
                     ta.select();
                     try {
                         document.execCommand('copy');
                         copyFeedbackEl.textContent = 'Lista kopirana!';
-                    } catch (err) { copyFeedbackEl.textContent = 'Kopiranje nije uspjelo.'; }
+                    } catch (err) { 
+                        copyFeedbackEl.textContent = 'Kopiranje nije uspjelo.'; 
+                    }
                     document.body.removeChild(ta);
-                } else { copyFeedbackEl.textContent = 'Nema ničega za kopirati.'; }
+                } else { 
+                    copyFeedbackEl.textContent = 'Nema ničega za kopirati.'; 
+                }
                 setTimeout(() => { copyFeedbackEl.textContent = ''; }, 2000);
             });
             
@@ -559,4 +572,3 @@ Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
     </script>
 </body>
 </html>
-
