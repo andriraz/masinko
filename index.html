@@ -20,34 +20,42 @@
     </style>
 </head>
 <body class="bg-black text-white flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+    <div class="w-full max-w-5xl mx-auto p-4 sm:p-6 md:p-8">
         <div class="bg-stone-900 rounded-2xl shadow-2xl p-6 sm:p-8">
             <header class="text-center mb-8">
-                <h1 class="text-3xl sm:text-4xl font-bold text-orange-400">Lažni Andrija</h1>
-                <p class="text-stone-400 mt-2">Generator setliste za gig</p>
+                <h1 class="text-3xl sm:text-4xl font-bold text-orange-400">Generator Setliste</h1>
+                <p class="text-stone-400 mt-2">Kreirajte savršenu setlistu za vaš nastup.</p>
             </header>
 
             <!-- Input Controls -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div>
-                    <label for="duration" class="block text-sm font-medium text-stone-300 mb-2">Trajanje (minute)</label>
-                    <input type="number" id="duration" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="npr. 90" value="90">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                 <div>
+                    <label for="duration" class="block text-sm font-medium text-stone-300 mb-2">Maks. trajanje (min)</label>
+                    <input type="number" id="duration" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="75" value="75">
                 </div>
                  <div>
-                    <label for="break-duration" class="block text-sm font-medium text-stone-300 mb-2">Pauza (sekunde)</label>
-                    <input type="number" id="break-duration" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="npr. 30" value="30">
+                    <label for="break-duration" class="block text-sm font-medium text-stone-300 mb-2">Pauza (sek)</label>
+                    <input type="number" id="break-duration" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="30" value="30">
+                </div>
+                 <div>
+                    <label for="encore" class="block text-sm font-medium text-stone-300 mb-2">Bis (pjesme)</label>
+                    <input type="number" id="encore" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition" placeholder="0" value="0" min="0" max="4">
                 </div>
                 <div>
-                    <label for="type" class="block text-sm font-medium text-stone-300 mb-2">Tip liste</label>
+                    <label for="type" class="block text-sm font-medium text-stone-300 mb-2">Tip Liste</label>
                     <select id="type" class="w-full bg-stone-800 border-stone-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition">
-                        <option value="Hits">Ziceri</option>
-                        <option value="Varied">Taman</option>
-                        <option value="Random">Peglanje</option>
+                        <option value="Hits">Hitovi</option>
+                        <option value="Varied">Raznovrsno</option>
+                        <option value="Random">Nasumično</option>
                     </select>
+                </div>
+                 <div class="flex items-end justify-center pb-3">
+                    <input id="blocks-toggle" type="checkbox" class="h-4 w-4 rounded border-stone-600 bg-stone-800 text-orange-600 focus:ring-orange-500">
+                    <label for="blocks-toggle" class="ml-2 block text-sm font-medium text-stone-300 select-none">Koristi Blokove</label>
                 </div>
                 <div class="self-end">
                     <button id="generate-btn" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-orange-500/50">
-                        Generiraj listu
+                        Generiraj
                     </button>
                 </div>
             </div>
@@ -57,7 +65,7 @@
             <!-- Results Section -->
             <div id="results-container" class="hidden animate-fade-in">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
-                    <h2 class="text-2xl font-semibold text-gray-100">Generirana setlista</h2>
+                    <h2 class="text-2xl font-semibold text-gray-100">Generirana Setlista</h2>
                     <div class="text-left sm:text-right bg-black/40 p-3 rounded-lg">
                          <p class="text-stone-400 text-sm">Ukupno trajanje:</p>
                          <p id="total-duration" class="text-xl font-bold text-orange-400"></p>
@@ -72,7 +80,7 @@
 
                 <div class="text-center mt-6">
                     <button id="copy-btn" class="bg-stone-700 hover:bg-stone-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                        Kopiraj setlistu
+                        Kopiraj Nazive Pjesama
                     </button>
                     <p id="copy-feedback" class="text-green-400 text-sm mt-2 h-4"></p>
                 </div>
@@ -83,75 +91,75 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Raw song data in CSV format
-            const csvData = `Song Name,Album,Duration,Playing
-Pij,Masinko,168,1
-Bitanga,Masinko,113,0
-Mrznja,Masinko,129,0
-Sude Mi,Masinko,164,1
-Sud,Masinko,99,0
-Ali,Masinko,124,0
-Nevidljivi covjek,Masinko,116,0
-Zigurat,Masinko,164,1
-Pustinja,Masinko,130,0
-Zli Sine,Masinko,175,1
-Sretan,Masinko,180,3
-Nitko,Masinko,223,0
-Kraj,Frakturko,137,2
-Erupcija Srece,Frakturko,130,4
-Kako Je Potjeh Trazio Rakiju,Frakturko,200,5
-Punk Protiv Pedofilije,Frakturko,213,2
-Gorija,Frakturko,136,3
-Ditiramb,Frakturko,178,3
-Od Kuce Do Raketa,Frakturko,186,2
-Gleceri,Svugdje je doma, ali lijepo je najljepse,33,3
-Kafe bar Faust,Svugdje je doma, ali lijepo je najljepse,207,2
-Oci pune suzavca,Svugdje je doma, ali lijepo je najljepse,170,4
-Kad idemo van,Svugdje je doma, ali lijepo je najljepse,193,5
-Kada vjetar kaze stani,Svugdje je doma, ali lijepo je najljepse,238,5
-Gotova stvar,Svugdje je doma, ali lijepo je najljepse,162,3
-Nesto novo, nesto divlje,Svugdje je doma, ali lijepo je najljepse,216,2
-Jedne noci u ponoc,Svugdje je doma, ali lijepo je najljepse,152,3
-Odzvanjala je pjesma,Svugdje je doma, ali lijepo je najljepse,166,4
-Bumerang,Svugdje je doma, ali lijepo je najljepse,156,3
-Stanje nacije,Svugdje je doma, ali lijepo je najljepse,174,1
-Dolje na dnu,Svugdje je doma, ali lijepo je najljepse,170,3
-Djevojka za pobjede,Svugdje je doma, ali lijepo je najljepse,186,3
-Pobuna,Svugdje je doma, ali lijepo je najljepse,131,2
-Pogledaj me u oci,Svugdje je doma, ali lijepo je najljepse,194,3
-Sretan bozic (bit ce bolje),Bozicna,139,1
-Brkovi,Obrade,140,1
-Srkijev san 21,Godina majmuna / Majmun godine,231,5
-Zajedno unatrag,Godina majmuna / Majmun godine,198,3
-041,Godina majmuna / Majmun godine,231,4
-Nijedna moja bivsa,Godina majmuna / Majmun godine,147,3
-Monumentalna,Godina majmuna / Majmun godine,384,3
-Rijetka sprava,Godina majmuna / Majmun godine,152,3
-Punim plucima,Danas cu, sutra cu,188,5
-Zle opacine,Danas cu, sutra cu,147,2
-Ona stoji na vratima i negoduje,Danas cu, sutra cu,215,4
-Izgubljenom vremenu,Danas cu, sutra cu,206,3
-Perice,Danas cu, sutra cu,189,1
-Mirta,Danas cu, sutra cu,200,2
-Tu smo gdje smo,Danas cu, sutra cu,149,1
-Jedne davne jeseni,Danas cu, sutra cu,258,0
-Veca lopata,Danas cu, sutra cu,200,4
-Svaki dan,Danas cu, sutra cu,181,0
-Cmrok 2,Danas cu, sutra cu,189,0
-Vrijeme za spavanje,Danas cu, sutra cu,240,2
-Kod veselog Ksenofonta,Pozovite rapsode,38,0
-Sitne duse,Pozovite rapsode,143,1
-Noc s petka na nedjelju,Pozovite rapsode,149,3
-Na ramenima divova,Pozovite rapsode,231,4
-Ono sto si ostavio,Pozovite rapsode,248,4
-Preko zidova,Pozovite rapsode,187,5
-Uzalud,Pozovite rapsode,202,0
-Obilje,Pozovite rapsode,139,3
-Skoro pa nesto,Pozovite rapsode,211,1
-Dzingis Kan,Pozovite rapsode,158,0
-Zivot tombola,Pozovite rapsode,136,0
-Pozovite rapsode,Pozovite rapsode,226,4
-Odlazim iz grada,Pozovite rapsode,202,0
-Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195,0`;
+            const csvData = `Song Name,Album,Duration,Playing,Encore,Block
+Pij,Masinko,168,1,1,0
+Bitanga,Masinko,113,0,0,0
+Mrznja,Masinko,129,0,0,0
+Sude Mi,Masinko,164,1,0,0
+Sud,Masinko,99,0,0,0
+Ali,Masinko,124,0,0,0
+Nevidljivi covjek,Masinko,116,0,0,0
+Zigurat,Masinko,164,1,0,0
+Pustinja,Masinko,130,0,0,0
+Zli Sine,Masinko,175,1,0,0
+Sretan,Masinko,180,3,1,0
+Nitko,Masinko,223,0,0,0
+Kraj,Frakturko,137,2,1,0
+Erupcija Srece,Frakturko,130,4,1,0
+Kako Je Potjeh Trazio Rakiju,Frakturko,200,5,0,0
+Punk Protiv Pedofilije,Frakturko,213,2,0,0
+Gorija,Frakturko,136,3,1,0
+Ditiramb,Frakturko,178,3,0,1
+Od Kuce Do Raketa,Frakturko,186,2,0,0
+Gleceri,Svugdje je doma,33,3,0,0
+Kafe bar Faust,Svugdje je doma,207,2,1,0
+Oci pune suzavca,Svugdje je doma,170,4,1,2
+Kad idemo van,Svugdje je doma,193,5,1,0
+Kada vjetar kaze stani,Svugdje je doma,238,5,0,2
+Gotova stvar,Svugdje je doma,162,3,1,0
+Nesto novo nesto divlje,Svugdje je doma,216,2,0,0
+Jedne noci u ponoc,Svugdje je doma,152,3,1,0
+Odzvanjala je pjesma,Svugdje je doma,166,4,0,2
+Bumerang,Svugdje je doma,156,3,1,0
+Stanje nacije,Svugdje je doma,174,1,0,0
+Dolje na dnu,Svugdje je doma,170,3,1,0
+Djevojka za pobjede,Svugdje je doma,186,3,0,0
+Pobuna,Svugdje je doma,131,2,1,0
+Pogledaj me u oci,Svugdje je doma,194,3,0,1
+Sretan Bozic (bit ce bolje),Bozicna,139,1,0,0
+Brkovi,Obrade,140,1,0,0
+Srkijev san 21,Majmun godine,231,5,0,2
+Zajedno unatrag,Majmun godine,198,3,0,0
+041,Majmun godine,231,4,1,1
+Nijedna moja bivsa,Majmun godine,147,3,0,0
+Monumentalna,Majmun godine,384,3,0,0
+Rijetka sprava,Majmun godine,152,3,1,0
+Punim plucima,Danas cu sutra cu,188,5,1,0
+Zle opacine,Danas cu sutra cu,147,2,0,0
+Ona stoji na vratima i negoduje,Danas cu sutra cu,215,4,1,0
+Izgubljenom vremenu,Danas cu sutra cu,206,3,0,0
+Perice,Danas cu sutra cu,189,1,0,0
+Mirta,Danas cu sutra cu,200,2,1,0
+Tu smo gdje smo,Danas cu sutra cu,149,1,0,0
+Jedne davne jeseni,Danas cu sutra cu,258,0,0,0
+Veca lopata,Danas cu sutra cu,200,4,0,0
+Svaki dan,Danas cu sutra cu,181,0,0,0
+Cmrok 2,Danas cu sutra cu,189,0,0,0
+Vrijeme za spavanje,Danas cu sutra cu,240,2,0,0
+Kod veselog Ksenofonta,Pozovite rapsode,38,0,0,0
+Sitne duse,Pozovite rapsode,143,1,1,0
+Noc s petka na nedjelju,Pozovite rapsode,149,3,1,0
+Na ramenima divova,Pozovite rapsode,231,4,0,0
+Ono sto si ostavio,Pozovite rapsode,248,4,0,1
+Preko zidova,Pozovite rapsode,187,5,1,0
+Uzalud,Pozovite rapsode,202,0,0,0
+Obilje,Pozovite rapsode,139,3,1,1
+Skoro pa nesto,Pozovite rapsode,211,1,0,0
+Dzingis Kan,Pozovite rapsode,158,0,0,0
+Zivot tombola,Pozovite rapsode,136,0,0,0
+Pozovite rapsode,Pozovite rapsode,226,4,1,0
+Odlazim iz grada,Pozovite rapsode,202,0,0,0
+Jedna morska kakvu zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195,0,0,0`;
 
             const distributions = {
                 Hits: { 4: 0.7, 3: 0.3, 2: 0.0, 1: 0.0 },
@@ -161,7 +169,9 @@ Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
 
             const durationInput = document.getElementById('duration');
             const breakDurationInput = document.getElementById('break-duration');
+            const encoreInput = document.getElementById('encore');
             const typeSelect = document.getElementById('type');
+            const blocksToggle = document.getElementById('blocks-toggle');
             const generateBtn = document.getElementById('generate-btn');
             const copyBtn = document.getElementById('copy-btn');
             const resultsContainer = document.getElementById('results-container');
@@ -171,21 +181,18 @@ Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
             const copyFeedbackEl = document.getElementById('copy-feedback');
 
             // --- Helper Functions ---
-
             const parseCSV = (data) => {
                 const lines = data.trim().split('\n').slice(1);
                 return lines.map(line => {
                     const parts = line.split(',');
-                    if (parts.length < 4) return null;
-
-                    const playing = parseInt(parts[parts.length - 1], 10);
-                    const duration = parseInt(parts[parts.length - 2], 10);
-                    const name = parts[0].trim();
-                    const album = parts.slice(1, parts.length - 2).join(',').trim();
-
-                    if (isNaN(duration) || isNaN(playing)) return null;
-
-                    return { name, album, duration, playing };
+                    const name = parts.slice(0, parts.length - 5).join(',').trim();
+                    const album = parts[parts.length - 5].trim();
+                    const duration = parseInt(parts[parts.length - 4], 10);
+                    const playing = parseInt(parts[parts.length - 3], 10);
+                    const encore = parseInt(parts[parts.length - 2], 10);
+                    const block = parseInt(parts[parts.length - 1], 10);
+                    if (isNaN(duration) || isNaN(playing) || isNaN(encore) || isNaN(block)) return null;
+                    return { name, album, duration, playing, encore, block };
                 }).filter(Boolean);
             };
 
@@ -203,12 +210,24 @@ Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                 return `${minutes}:${seconds.toString().padStart(2, '0')}`;
             };
             
-            const calculateTotalTime = (songList) => {
+            const calculateListTime = (list) => {
+                 const breakDuration = parseInt(breakDurationInput.value, 10) || 0;
+                 if (!list || list.length === 0) return 0;
+                 const songDurations = list.reduce((acc, song) => acc + song.duration, 0);
+                 const breaksTime = (list.length > 1) ? (list.length - 1) * breakDuration : 0;
+                 return songDurations + breaksTime;
+            };
+
+            const calculateTotalTime = (mainList, encoreList = []) => {
                 const breakDuration = parseInt(breakDurationInput.value, 10) || 0;
-                if (!songList || songList.length === 0) return 0;
-                const songDurations = songList.reduce((acc, song) => acc + song.duration, 0);
-                const breaksTime = (songList.length > 1) ? (songList.length - 1) * breakDuration : 0;
-                return songDurations + breaksTime;
+                const flatMain = mainList.flat();
+                const mainTime = calculateListTime(flatMain);
+                const encoreTime = calculateListTime(encoreList);
+
+                if(flatMain.length > 0 && encoreList.length > 0){
+                    return mainTime + encoreTime + breakDuration; // Add break between main set and encore
+                }
+                return mainTime + encoreTime;
             };
             
             const getWeightedRandomPriority = (dist) => {
@@ -217,45 +236,44 @@ Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                 for (const priority in dist) {
                     if (dist.hasOwnProperty(priority) && dist[priority] > 0) {
                          cumulative += dist[priority];
-                         if (rand < cumulative) {
-                             return parseInt(priority);
-                         }
+                         if (rand < cumulative) return parseInt(priority);
                     }
                 }
                 const priorities = Object.keys(dist).filter(p => dist[p] > 0);
                 return priorities.length > 0 ? parseInt(priorities[priorities.length-1]) : null;
             };
+            
+             const findValidEncore = (pool, count) => {
+                if (count === 0) return [];
+                if (pool.length < count) return null;
 
+                const targetSum = count * 4;
 
-            // --- Main Logic ---
-            const applyAlbumRule = (songList) => {
-                const list = [...songList];
-                for (let i = 2; i < list.length; i++) {
-                    if (list[i].album && list[i].album === list[i-1].album && list[i-1].album === list[i-2].album) {
-                        let swapped = false;
-                        for (let j = i + 1; j < list.length; j++) {
-                            if (list[j].album !== list[i].album && list[j].album !== list[i-1].album) {
-                                 [list[i], list[j]] = [list[j], list[i]];
-                                 swapped = true;
-                                 break;
-                            }
-                        }
-                        if (!swapped) {
-                             for (let j = i + 1; j < list.length; j++) {
-                                if (list[j].album !== list[i].album) {
-                                    [list[i], list[j]] = [list[j], list[i]];
-                                    break;
-                                }
-                            }
-                        }
+                // 1. Try a few random attempts first for variety
+                for (let i = 0; i < 20; i++) {
+                    const selection = shuffle([...pool]).slice(0, count);
+                    if (selection.reduce((acc, s) => acc + s.playing, 0) >= targetSum) {
+                        return selection;
                     }
                 }
-                return list;
+
+                // 2. If random fails, try a deterministic approach with the best songs
+                const sortedPool = [...pool].sort((a, b) => b.playing - a.playing);
+                const bestSelection = sortedPool.slice(0, count);
+                if (bestSelection.reduce((acc, s) => acc + s.playing, 0) >= targetSum) {
+                    return bestSelection;
+                }
+                
+                // 3. If even the best combination fails, it's impossible.
+                return null;
             };
 
             const findLastThree = (list) => {
-                const candidates = list.filter(s => s.playing >= 3).sort((a, b) => b.playing - a.playing);
+                let candidates = list.filter(s => s.playing >= 3);
                 if (candidates.length < 3) return null;
+                
+                shuffle(candidates); 
+
                 for (let i = 0; i < candidates.length - 2; i++) {
                     for (let j = i + 1; j < candidates.length - 1; j++) {
                         for (let k = j + 1; k < candidates.length; k++) {
@@ -268,177 +286,277 @@ Jedna morska kakvu Zera napise za svaki album Crvene Jabuke,Pozovite rapsode,195
                 return null;
             };
 
+            // --- Main Logic ---
+            const structureInBlocks = (songList) => {
+                if (songList.length < 6) return null; 
+
+                const lastThree = findLastThree(songList);
+                if (!lastThree) return null;
+                
+                let others = songList.filter(s => !lastThree.includes(s));
+                shuffle(others); 
+                
+                const firstBlock = [];
+                let firstSongIndex = others.findIndex(s => s.name === "Gleceri");
+                 if (firstSongIndex === -1) firstSongIndex = others.findIndex(s => s.block !== 2);
+                 if (firstSongIndex === -1) firstSongIndex = 0;
+                 if (others.length === 0) return null;
+
+                firstBlock.push(others.splice(firstSongIndex, 1)[0]);
+                if (others.length < 2) return null; 
+                firstBlock.push(...others.splice(0, 2));
+
+                const middleBlocks = [];
+                let middlePool = others; 
+                while (middlePool.length > 0) {
+                    let blockSize = [1, 2, 3][Math.floor(Math.random() * 3)];
+                    if (middlePool.length === 4) blockSize = 2;
+                    else if (middlePool.length < 3) blockSize = middlePool.length;
+                    
+                    blockSize = Math.min(blockSize, middlePool.length);
+                    const newBlock = [];
+                    
+                    let blockFirstSongIndex = middlePool.findIndex(s => s.block !== 2);
+                    if (blockFirstSongIndex === -1) {
+                        blockFirstSongIndex = 0;
+                    }
+
+                    if (middlePool.length > 0) {
+                        newBlock.push(middlePool.splice(blockFirstSongIndex, 1)[0]);
+                    } else {
+                        break;
+                    }
+                    
+                    for (let i = 0; i < blockSize - 1; i++) {
+                       if(middlePool.length > 0) newBlock.push(middlePool.pop());
+                    }
+                    middleBlocks.push(newBlock);
+                }
+                
+                return [firstBlock, ...middleBlocks, shuffle(lastThree)];
+            };
+            
+            const structureNormally = (songList) => {
+                const lastThree = findLastThree(songList);
+                if (!lastThree) return null;
+                
+                let remaining = songList.filter(s => !lastThree.includes(s));
+                const gleceriIndex = remaining.findIndex(s => s.name === "Gleceri");
+                 if (gleceriIndex > -1) {
+                    const gleceriSong = remaining.splice(gleceriIndex, 1)[0];
+                    remaining.unshift(gleceriSong);
+                }
+
+                shuffle(remaining);
+                
+                const midPoint = Math.floor(remaining.length / 2);
+                for (let i = 0; i < midPoint; i++) {
+                    if (remaining[i].playing > 2) {
+                        const swapCandidates = remaining.map((s, idx) => s.playing <= 2 && idx >= midPoint ? idx : -1).filter(idx => idx !== -1);
+                        if (swapCandidates.length > 0) {
+                            const swapIndex = swapCandidates[Math.floor(Math.random() * swapCandidates.length)];
+                            [remaining[i], remaining[swapIndex]] = [remaining[swapIndex], remaining[i]];
+                        }
+                    }
+                }
+                return [...remaining, ...shuffle(lastThree)];
+            };
+
             const generateSetlist = () => {
                 const targetMinutes = parseInt(durationInput.value, 10);
+                const encoreCount = parseInt(encoreInput.value, 10);
+                const useBlocks = blocksToggle.checked;
+
                 if (isNaN(targetMinutes) || targetMinutes <= 0) {
-                    errorMessageEl.textContent = 'Molimo unesite valjano trajanje u minutama.';
-                    errorMessageEl.classList.remove('hidden');
-                    resultsContainer.classList.add('hidden');
-                    return;
+                    errorMessageEl.textContent = 'Molimo unesite valjano trajanje.';
+                    errorMessageEl.classList.remove('hidden'); return;
+                }
+                 if (isNaN(encoreCount) || encoreCount < 0 || encoreCount > 4) {
+                    errorMessageEl.textContent = 'Bis mora biti između 0 i 4.';
+                    errorMessageEl.classList.remove('hidden'); return;
                 }
                 
                 const songs = parseCSV(csvData);
                 const type = typeSelect.value;
-                const targetSeconds = targetMinutes * 60;
-                const maxDuration = targetSeconds + 120;
-                const minDuration = targetSeconds - 180;
+                const maxDuration = targetMinutes * 60;
 
                 let attempts = 0;
-                while (attempts < 20) {
-                    let finalSetlist = songs.filter(s => s.playing === 5);
-                    const songNamesInSetlist = new Set(finalSetlist.map(s => s.name));
-                     const pools = {
-                        1: shuffle(songs.filter(s => s.playing === 1 && !songNamesInSetlist.has(s.name))),
-                        2: shuffle(songs.filter(s => s.playing === 2 && !songNamesInSetlist.has(s.name))),
-                        3: shuffle(songs.filter(s => s.playing === 3 && !songNamesInSetlist.has(s.name))),
-                        4: shuffle(songs.filter(s => s.playing === 4 && !songNamesInSetlist.has(s.name))),
-                    };
-                    const distribution = distributions[type];
-                    let currentDuration = calculateTotalTime(finalSetlist);
+                while (attempts < 500) { 
+                    attempts++;
+                    
+                    // --- PHASE 1: SECURE THE ENCORE ---
+                    const allEncoreEligibleSongs = songs.filter(s => s.encore === 1);
+                    const encoreSongs = findValidEncore(allEncoreEligibleSongs, encoreCount);
+                    if (encoreSongs === null) {
+                         // This is a hard failure, if no valid encore can ever be made, stop.
+                         errorMessageEl.textContent = 'Nije moguće složiti bis s traženim brojem pjesama i prioritetom.';
+                         errorMessageEl.classList.remove('hidden');
+                         resultsContainer.classList.add('hidden');
+                         return;
+                    }
+                    const encoreTime = calculateTotalTime([], encoreSongs);
+                    const encoreSongNames = new Set(encoreSongs.map(s => s.name));
 
-                    let availablePools = Object.keys(pools).filter(p => pools[p].length > 0 && distribution[p] > 0);
+                    // --- PHASE 2: BUILD THE MAIN SET ---
+                    const mainSetMaxTime = maxDuration - encoreTime - (encoreCount > 0 ? (parseInt(breakDurationInput.value, 10) || 0) : 0);
+                    if (mainSetMaxTime < 0) continue;
+
+                    let mainSetPool = songs.filter(s => !encoreSongNames.has(s.name));
+                    
+                    let mainSetlist = mainSetPool.filter(s => s.playing === 5);
+                    let mainSetNames = new Set(mainSetlist.map(s => s.name));
+                    
+                    const pools = {
+                        1: shuffle(mainSetPool.filter(s => s.playing === 1 && !mainSetNames.has(s.name))),
+                        2: shuffle(mainSetPool.filter(s => s.playing === 2 && !mainSetNames.has(s.name))),
+                        3: shuffle(mainSetPool.filter(s => s.playing === 3 && !mainSetNames.has(s.name))),
+                        4: shuffle(mainSetPool.filter(s => s.playing === 4 && !mainSetNames.has(s.name))),
+                    };
+                    
+                    let availablePools = Object.keys(pools).filter(p => pools[p].length > 0 && distributions[type][p] > 0);
                     while(availablePools.length > 0) {
-                        const priority = getWeightedRandomPriority(distribution);
+                        const priority = getWeightedRandomPriority(distributions[type]);
                         if (!priority || !pools[priority] || pools[priority].length === 0) {
                             availablePools = availablePools.filter(p => p != priority);
                             continue;
                         }
-                        const songToAdd = pools[priority][pools[priority].length - 1];
-                        const tempSetlist = [...finalSetlist, songToAdd];
-                        const durationWithNewSong = calculateTotalTime(tempSetlist);
-
-                        if (durationWithNewSong <= maxDuration) {
-                            finalSetlist.push(pools[priority].pop());
-                            currentDuration = durationWithNewSong;
+                        const songToAdd = pools[priority].pop();
+                        if (calculateListTime([...mainSetlist, songToAdd]) <= mainSetMaxTime + 300) { // Overshoot slightly
+                            mainSetlist.push(songToAdd);
                         } else {
-                            pools[priority].pop();
+                            pools[priority].push(songToAdd); // put it back if too long
+                            break;
                         }
+
                         if (pools[priority].length === 0) {
                             availablePools = availablePools.filter(p => p != priority);
                         }
                     }
 
-                    currentDuration = calculateTotalTime(finalSetlist);
-                    const lastThree = findLastThree(finalSetlist);
+                    // Trim the main set to fit its allocated time
+                    while (calculateListTime(mainSetlist) > mainSetMaxTime) {
+                        const minSongs = useBlocks ? 6 : 3;
+                        if (mainSetlist.length <= minSongs) break;
 
-                    if (currentDuration >= minDuration && lastThree) {
-                        errorMessageEl.classList.add('hidden');
+                        const lastThree = findLastThree(mainSetlist);
+                        const lastThreeNames = lastThree ? new Set(lastThree.map(s => s.name)) : new Set();
                         
-                        let remainingSongs = finalSetlist.filter(song => !lastThree.includes(song));
-                        shuffle(remainingSongs);
-
-                        remainingSongs = applyAlbumRule(remainingSongs);
-
-                        const midPoint = Math.floor(remainingSongs.length / 2);
-                        for (let i = 0; i < midPoint; i++) {
-                            if (remainingSongs[i].playing > 2) {
-                                const swapCandidateIndices = [];
-                                for (let j = midPoint; j < remainingSongs.length; j++) {
-                                    if (remainingSongs[j].playing <= 2) {
-                                        swapCandidateIndices.push(j);
-                                    }
-                                }
-                                if (swapCandidateIndices.length > 0) {
-                                    const swapIndex = swapCandidateIndices[Math.floor(Math.random() * swapCandidateIndices.length)];
-                                    [remainingSongs[i], remainingSongs[swapIndex]] = [remainingSongs[swapIndex], remainingSongs[i]];
-                                }
-                            }
+                        const removable = mainSetlist.filter(s => s.playing < 5 && !lastThreeNames.has(s.name));
+                        if (removable.length > 0) {
+                            removable.sort((a, b) => a.playing - b.playing || a.duration - b.duration);
+                            const toRemove = removable[0];
+                            mainSetlist = mainSetlist.filter(s => s !== toRemove);
+                        } else {
+                           const worstSong = mainSetlist.filter(s => !lastThreeNames.has(s))
+                                                        .sort((a,b) => a.playing - b.playing || a.duration - b.duration)[0];
+                           if(worstSong) mainSetlist = mainSetlist.filter(s => s !== worstSong);
+                           else break;
                         }
-                        
-                        const gleceriIndex = remainingSongs.findIndex(s => s.name === "Gleceri");
-                        if (gleceriIndex > -1) {
-                            const gleceriSong = remainingSongs.splice(gleceriIndex, 1)[0];
-                            remainingSongs.unshift(gleceriSong);
-                        }
-
-                        shuffle(lastThree);
-                        const orderedSetlist = [...remainingSongs, ...lastThree];
-                        renderSetlist(orderedSetlist);
-                        return;
                     }
-                    attempts++;
+
+                    // --- PHASE 3: FINAL STRUCTURE AND VALIDATION ---
+                    const minMainSongs = useBlocks ? 6 : 3;
+                    if (mainSetlist.length < minMainSongs) continue;
+                    if (!findLastThree(mainSetlist)) continue;
+                    
+                    const structuredMain = useBlocks ? structureInBlocks(mainSetlist) : structureNormally(mainSetlist);
+                    if (!structuredMain) continue;
+
+                    // SUCCESS
+                    errorMessageEl.classList.add('hidden');
+                    renderSetlist(structuredMain, encoreSongs);
+                    return;
                 }
 
-                errorMessageEl.textContent = 'Nije moguće generirati listu koja zadovoljava sva pravila. Pokušajte s dužim trajanjem ili drugačijim tipom liste.';
+                errorMessageEl.textContent = 'Nije moguće generirati listu koja zadovoljava sva pravila. Pokušajte s drugačijim postavkama.';
                 errorMessageEl.classList.remove('hidden');
                 resultsContainer.classList.add('hidden');
             };
 
-            const renderSetlist = (list) => {
+            const renderSetlist = (mainListData, encoreList = []) => {
                 setlistEl.innerHTML = '';
-                
-                if (list.length === 0) {
-                    setlistEl.innerHTML = `<li class="p-4 text-center text-stone-500">Nije moguće generirati listu s zadanim kriterijima.</li>`;
+                const isBlocked = Array.isArray(mainListData[0]);
+                const flatMainList = isBlocked ? mainListData.flat() : mainListData;
+                let songCounter = 0;
+
+                if (isBlocked) {
+                    mainListData.forEach((block, index) => {
+                        if(block.length === 0) return;
+                        const separator = document.createElement('li');
+                        separator.className = 'py-2 text-center text-stone-600 font-semibold tracking-wider bg-stone-800/60';
+                        separator.textContent = `---`;
+                        setlistEl.appendChild(separator);
+                        block.forEach(song => {
+                           songCounter++;
+                           setlistEl.appendChild(createSongLi(song, songCounter));
+                        });
+                    });
                 } else {
-                    list.forEach((song, index) => {
-                        const li = document.createElement('li');
-                        li.className = 'px-2 sm:px-4 py-4 flex justify-between items-center transition hover:bg-stone-800/50';
-                        li.innerHTML = `
-                            <div class="flex items-center gap-2 sm:gap-4">
-                                <span class="text-stone-500 font-bold w-8 text-center text-lg">${index + 1}.</span>
-                                <div>
-                                    <p class="font-semibold text-white">${song.name}</p>
-                                    <p class="text-sm text-stone-400">${song.album}</p>
-                                </div>
-                            </div>
-                            <div class="text-right flex-shrink-0">
-                               <p class="font-medium text-gray-300">${formatTime(song.duration)}</p>
-                               <p class="text-xs text-orange-400/70">Prioritet: ${song.playing}</p>
-                            </div>
-                        `;
-                        setlistEl.appendChild(li);
+                    mainListData.forEach(song => {
+                       songCounter++;
+                       setlistEl.appendChild(createSongLi(song, songCounter));
                     });
                 }
-
-                const finalDuration = calculateTotalTime(list);
-                totalDurationEl.textContent = formatTime(finalDuration);
+                
+                if (encoreList.length > 0) {
+                    const separator = document.createElement('li');
+                    separator.className = 'py-3 text-center text-orange-400 font-semibold tracking-widest bg-black/30';
+                    separator.textContent = '===';
+                    setlistEl.appendChild(separator);
+                    encoreList.forEach(song => {
+                        songCounter++;
+                        setlistEl.appendChild(createSongLi(song, songCounter));
+                    });
+                }
+                
+                totalDurationEl.textContent = formatTime(calculateTotalTime(flatMainList, encoreList));
                 resultsContainer.classList.remove('hidden');
+            };
+
+            const createSongLi = (song, counter) => {
+                 const li = document.createElement('li');
+                 li.className = 'px-2 sm:px-4 py-4 flex justify-between items-center transition hover:bg-stone-800/50';
+                 li.innerHTML = `
+                    <div class="flex items-center gap-2 sm:gap-4">
+                        <span class="text-stone-500 font-bold w-8 text-center text-lg">${counter}.</span>
+                        <div>
+                            <p class="font-semibold text-white">${song.name}</p>
+                            <p class="text-sm text-stone-400">${song.album}</p>
+                        </div>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                       <p class="font-medium text-gray-300">${formatTime(song.duration)}</p>
+                       <p class="text-xs text-orange-400/70">Prioritet: ${song.playing}</p>
+                    </div>
+                 `;
+                 return li;
             };
 
             // --- Event Listeners ---
             generateBtn.addEventListener('click', generateSetlist);
-
             copyBtn.addEventListener('click', () => {
-                const songTitles = Array.from(setlistEl.querySelectorAll('li'))
-                    .map(li => li.querySelector('.font-semibold')?.textContent)
-                    .filter(Boolean)
-                    .join('\n');
+                let textToCopy = Array.from(setlistEl.children).map(li => {
+                    if (li.textContent.includes('---')) return `\n${li.textContent}\n`;
+                    return li.querySelector('.font-semibold')?.textContent;
+                }).join('\n').replace(/\n\n/g, '\n').trim();
 
-                if (songTitles) {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = songTitles;
-                    textArea.style.position = 'fixed';
-                    textArea.style.top = '0';
-                    textArea.style.left = '0';
-                    textArea.style.width = '2em';
-                    textArea.style.height = '2em';
-                    textArea.style.padding = '0';
-                    textArea.style.border = 'none';
-                    textArea.style.outline = 'none';
-                    textArea.style.boxShadow = 'none';
-                    textArea.style.background = 'transparent';
-                    document.body.appendChild(textArea);
-                    textArea.focus();
-                    textArea.select();
+                if (textToCopy) {
+                    const ta = document.createElement('textarea');
+                    ta.value = textToCopy; ta.style.position = 'fixed'; ta.style.top = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.select();
                     try {
                         document.execCommand('copy');
                         copyFeedbackEl.textContent = 'Lista kopirana!';
-                    } catch (err) {
-                        copyFeedbackEl.textContent = 'Kopiranje nije uspjelo.';
-                    }
-                    document.body.removeChild(textArea);
-                } else {
-                     copyFeedbackEl.textContent = 'Nema ničega za kopirati.';
-                }
-
-                setTimeout(() => {
-                    copyFeedbackEl.textContent = '';
-                }, 2000);
+                    } catch (err) { copyFeedbackEl.textContent = 'Kopiranje nije uspjelo.'; }
+                    document.body.removeChild(ta);
+                } else { copyFeedbackEl.textContent = 'Nema ničega za kopirati.'; }
+                setTimeout(() => { copyFeedbackEl.textContent = ''; }, 2000);
             });
             
-            // Generate a default list on page load
             generateSetlist();
         });
     </script>
 </body>
 </html>
+
